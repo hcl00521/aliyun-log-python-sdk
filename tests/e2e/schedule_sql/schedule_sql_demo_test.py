@@ -9,17 +9,17 @@ from aliyun.log.scheduled_sql import *
 accessKeyId = ""  # The AccessKeyId
 accessKeySecret = ""  # The AccessKeySecret
 
-endpoint = "cn-shanghai.log.aliyuncs.com"  # The  source endpoint of the project's region
-roleArn = ""  # The roleArn
-project = "etl-project"  # The source project name
-source_logstore = ""  # The source logstore name
+endpoint = "cn-heyuan.log.aliyuncs.com"  # The  source endpoint of the project's region
+roleArn = "acs:ram::111:role/aliyunlogetlrole"  # The roleArn
+project = "111"  # The source project name
+source_logstore = "111"  # The source logstore name
 source_metricstore = ""  # The source metricstore name
 
 dest_endpoint = ""  # The endpoint of the destination project's region
-dest_role_arn = ""  # The destination roleArn
-dest_project = ""  # The destination project name
+dest_role_arn = "acs:ram::111:role/aliyunlogetlrole"  # The destination roleArn
+dest_project = "111"  # The destination project name
 dest_logstore = ""  # The destination logstore name
-dest_metricstore = ""  # The destination metricstore name
+dest_metricstore = "111"  # The destination metricstore name
 
 from_time = int(time.time()) - 360  # The start time of the scheduled SQL task
 
@@ -34,7 +34,7 @@ instance_id = ""  # The job instanceId for schedule sql
 delay_seconds = 0  # the delay seconds for schedule sql
 
 # three possible values for the variable data_format  : "log2log" , "log2metric" ,"metric2metric"
-data_format = "log2log"
+data_format = "log2metric"
 
 # Possible values for the variable schedule_type: "FixedRate", "Daily", "Weekly", "Hourly", "Cron"
 # schedule_type = "FixedRate"
@@ -79,6 +79,8 @@ def generate_schedule_sql():
     config.setToTime(0)
     config.setDataFormat(data_format)
     config.setParameters(parameters)
+    config.setForceComplete(True)
+    config.setUsingExactlyOnce(True)
 
     schedule_sql.setSchedule(schedule_rule)
     schedule_sql.setConfiguration(config)
@@ -314,6 +316,7 @@ def update_schedule_sql():
 
     configuration['fromTimeExpr'] = '@m-3m'
     configuration['maxRetries'] = 25
+    configuration['usingExactlyOnce'] = True
 
     schedule['type'] = 'Cron'
     schedule['timeZone'] = '+0800'
@@ -331,11 +334,11 @@ def update_schedule_sql():
     schedule_sql.setName(job_name)
     schedule_sql.setDisplayName(display_name)
     schedule_sql.setDescription(description)
-
+    print(configuration.configurationToDict())
     update_schedule_sql_response = client.update_scheduled_sql(project, schedule_sql)
     update_schedule_sql_response.log_print()
 
 
 if __name__ == "__main__":
-    create_schedule_sql()
+    update_schedule_sql()
     pass
