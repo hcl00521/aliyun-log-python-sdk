@@ -10,16 +10,16 @@ accessKeyId = ""  # The AccessKeyId
 accessKeySecret = ""  # The AccessKeySecret
 
 endpoint = "cn-heyuan.log.aliyuncs.com"  # The  source endpoint of the project's region
-roleArn = "acs:ram::111:role/aliyunlogetlrole"  # The roleArn
-project = "111"  # The source project name
-source_logstore = "111"  # The source logstore name
+roleArn = ""  # The roleArn
+project = "etl-project"  # The source project name
+source_logstore = ""  # The source logstore name
 source_metricstore = ""  # The source metricstore name
 
 dest_endpoint = ""  # The endpoint of the destination project's region
-dest_role_arn = "acs:ram::111:role/aliyunlogetlrole"  # The destination roleArn
-dest_project = "111"  # The destination project name
+dest_role_arn = ""  # The destination roleArn
+dest_project = ""  # The destination project name
 dest_logstore = ""  # The destination logstore name
-dest_metricstore = "111"  # The destination metricstore name
+dest_metricstore = ""  # The destination metricstore name
 
 from_time = int(time.time()) - 360  # The start time of the scheduled SQL task
 
@@ -334,7 +334,6 @@ def update_schedule_sql():
     schedule_sql.setName(job_name)
     schedule_sql.setDisplayName(display_name)
     schedule_sql.setDescription(description)
-    print(configuration.configurationToDict())
     update_schedule_sql_response = client.update_scheduled_sql(project, schedule_sql)
     update_schedule_sql_response.log_print()
 

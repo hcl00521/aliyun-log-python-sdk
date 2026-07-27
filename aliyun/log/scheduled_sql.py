@@ -63,6 +63,8 @@ class ScheduledSQLConfiguration:
         self.__fromTime = 0
         self.__toTime = 0
         self.__dataFormat = "log2log"
+        self.__forceComplete = False
+        self.__usingExactlyOnce = False
         self.__parameters = ScheduledSQLParameters()
 
     def configurationToDict(self):
